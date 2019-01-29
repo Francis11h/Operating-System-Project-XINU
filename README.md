@@ -1,2 +1,4 @@
-CSC-501 operatingsystem
+CSC-501
+Operating System
 
+These are all submitted projects for CSC 501, Operating System.
