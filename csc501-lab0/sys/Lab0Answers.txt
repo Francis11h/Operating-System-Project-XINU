@@ -1,0 +1,95 @@
+1.Assuming the XINU text begins at address 0x0, draw a rough diagram of XINU’s memory layout with addresses derived from your experimental measurements. Include the information you uncovered from running your version of printsegaddress() and printprocstks().
+
+
+|					|
+|_______________________ ________> prnull, base pointer : 0x00fffffc
+|					| 	
+|	 proc:prnull		| ________> prnull stack pointer 0x00ffff1c
+|_______________________ ________> prunull limit 0x00fff000
+|_______________________ ________> main base 0x00ffeff8
+|					|
+|	 proc:main		| ________> main sp 0x00ffef80
+|_______________________ ________> main limit 0x00ffdffc
+|					|
+|		stack		|
+|_ _ _ _ _ _ _ _ _ _|
+|		  			|
+|		  			|
+|		 			|
+|					|
+|					|
+|					|
+|		 			|
+|		  			|
+|_ _ _ _ _ _ _ _ _ _|
+|					|
+|		heap		
+|___________________| ________>	end	0x00029f18
+|					|
+|		 bss 		|
+|___________________| ________> edata 0x0002176c
+|					|
+|		data		|
+|___________________| ________> etext 0x0001cee4
+|					|
+|		text		|
+|___________________| ________> begin 0x00000000
+
+
+2.What is the difference in stack top address before and after calling printtos() ? Draw a diagram to illustrate what are the contents of the items pushed into the stack between these two time points.
+
+When calling the function, the process will push the parameters into the stack, and then push the return address and the base pointer of main into the stack. In this situation, there is no parameters.
+
+|___________________| ________> 0x00ffefb0 -> top of stack before printtos() function
+|					|
+|	Return Address 	|
+|___________________| 
+|					|
+|	   ebp		|
+|___________________| ________> 0x00ffefa8 -> top of stack after printtos() function
+|					|
+
+
+3.Which byte order is adopted in the host machine that we are using ? How did you find out ?
+
+little-endian.
+The x86 series CPUs are all little-endian endian.
+The lower byte is placed at the lower address of the memory. And we can just go to see the address of the first position, if it is 0x01h, then it is little-endian.
+
+
+4.Briefly describe the mov, push, pusha, pop, and popa instructions in the x86.
+
+mov : 
+
+mov source, destination
+The first operand can be register contents, memory contents, and constant value; the second operand can be register or memory.
+	
+
+push : 
+
+push source.  
+Push its operand into the top of the stack in memory, the esp first decreased by 4, the operand will be put in the location that esp pointed.
+push %ebp: means push the ebp to the stack's top. 
+
+pusha :
+
+It is used to push all 16-bit general-purpose registers. The registers are pushed in the following order: AX, CX, DX, BX, SP, BP, SI, and DI.
+
+pop : 
+
+pop destination
+pop the content from the top of the stack into the destination operand(register or memory location).
+
+popa :
+
+It is used to pop all 16-bit general-purpose registers. The registers are popped in the following order: DI, SI, BP, SP, BX, DX, CX and AX.
+
+
+5.In a stack frame, local variables are stored below the top of the stack. In task 3, does your result show all the local variables declared in your printtos function? If not, can you explain that? (hint: try to disable the compiler optimization by specifing -O0 in your Makefile)
+
+
+My results didn't show all the local variables that declared in my printtos() function.
+With -O0 the compiler will not optimize the code,  if I add -O0 into Makefile, I think the printtos() will show the expected address. May be there are some hidden registers.
+
+
+
