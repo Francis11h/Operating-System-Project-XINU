@@ -1,0 +1,51 @@
+1.What are the advantages and disadvantages of each of the two scheduling policies? Also, give the advantages and disadvantages of the round robin scheduling policy originally implemented in Xinu.
+
+
+Aging Based Scheduler
+
+Advantages:
+	avoid starvation. Lower priority will eventually have a relative higher priority by increment 1
+	as one higher process is being executed. So it avoid the starvation problem.
+	It is easy to implement, cause that we just need to add 1 on each process that waiting in the 	readyqueue.
+	
+Disadvantages:
+	lower priority process may wait for a long time if there are too many higher priority before it 	cause it does not have a periodic mechanism like : epoch
+
+
+
+Linux-like Scheduler:
+
+Advantages: 
+	The epoch can avoid the processes with lower priority to be starvation, which means the response 	time is small. i.e., if there is a higher priority process with a very long execute time, the 	lower process waiting in the ready queue will have no chance to be scheduled. But the periodic 	epoch slowed this problem.
+	In next epoch, it also gives more time for a process that just used partial of its runtime.
+
+Disadvantages:
+	It is bad for some processes that need to response immediately. Cause that the change of priority
+	only works in the next epoch not work int the current epoch, so it is unfriendly to some real-	time processes.
+
+
+Default Xinu Scheduler:
+
+
+Advantages:
+	higher priority processes execute first. 
+	the average response time is low.
+	
+
+Disadvantages:
+	starvation. Low priority process has to wait for all higher priority processes to be executed. So 	they maybe not be executed.
+
+
+
+2.Describe the way each of the schedulers affects the NULL process.
+
+	For Aging Based Scheduler and Default Xinu Scheduler, the NULL process only will execute when the 	ready queue is empty.
+	For linux-like scheduler, The goodness value will be 0 for NULL processes.so it will not be 	scheduled.(use a if )
+
+
+3.Give two suggestions how the above mentioned aging based scheduler could be changed to attain better fairness keeping the fundamental point of incrementing the priority to be the same in your new ideas.
+
+	1. Maybe we can add a counter on every process that waiting in the ready queue, the counter 	counts the time that one process that the number of times a process has been added. If the 	counter surpass a bound, we can accelerate the speed of the adding on this process.
+
+	2.Maybe we can also import an periodic mechanism that after one period, the lower priority of 	process waiting in the ready queue has not been executed, we can add some big value to this 	specific process to decrease its response time.
+	
