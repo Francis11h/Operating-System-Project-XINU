@@ -1,0 +1,66 @@
+1.The priority inversion problem could cause that a higher-priority process needs to wait for the completion of a lower-priority process.Priority inheritance is one approach to address this issue.
+
+Please give another approach and briefly describe its idea.
+
+	1.1
+	Avoid Blocking:
+
+	Because priority inversion involves a low-priority task blocking a high-priority task, one way to avoid priority inversion is to avoid blocking, for example by using non-blocking synchronization or read-copy-update.
+
+	When a process/thread is blokced, it is basically dormant and is not contributing anything. If such a process happends to be a high-prioirty process then this case should be strictly avoided. 
+
+	We can avoid the blocks by doing changes on copies (called shadow copies) and then swapping them once the operation is completed. This swapping is atomic in nature and so there is no consistency problem.
+
+
+
+Design a test case to show that your approach can address the priority inversion problem. 
+
+You should compare the results that derived from the original XINU implementation (use semaphore) and that derived from your implementation (use readers/writer locks). 
+
+Put your results in Lab2Answers.txt and your test case program (name it task1.c) in both ./sys and ./TMP
+
+
+
+Processes A, B, C, and their priorities subject to C > B > A. 
+C's priority is high, 
+B's priority is medium,
+A's priority is low;
+
+
+Here is the result:
+ 
+Test by using semaphores. --- BEGIN
+
+  A begin.
+  A being at Critical Section.
+  A finish!!.
+  C begin.
+  C being at Critical Section.
+  B begin.
+  B holds cpu and ouputs itself.
+B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B 
+  C finish!!.
+
+Test by using locks. --- BEGIN
+
+  A begin.
+  A to acquire lock.
+  A finish!!.
+  C begin.
+  C to acquire lock.
+  C finish!!.
+  B begin.
+  B holds cpu and ouputs itself.
+B B B B B B B B B B B B B B B B B B B B B B B B B B B B B B 
+[zhan23@vm19-69 compile](vmhost1)$ 
+
+
+
+2.Synchronization is a quite complex issue in operating systems. To show your understanding about process synchronization, you are asked to point out a potential problem in this pesudo-code: task2_sync_issue.c.
+Multiple reader processes can execute this code concurrently by calling reader(). You are asked to describe an issue it may cause and why it can happen. 
+
+
+If there are more than one process to request acquire the read lock, there will be a problem, which can cause the failure of synchronization.  One of them acquire the reader lock do some write operations, and another process then acquire the lock at the time, since that the reader lock is not exclusive, and the second process can also modify the data.
+
+
+
