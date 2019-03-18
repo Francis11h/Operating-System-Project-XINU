@@ -2,8 +2,8 @@
 Operating System projects
 
 
-CPU scheduling
+1. CPU scheduling
 
-advanced reader-writer locks
+2. advanced reader-writer locks
 
-page table
+3. page table / page handling
