@@ -1,11 +1,13 @@
 
 Operating System projects
+==
 
 
-
-
-  1. CPU scheduling
-
-  2. advanced reader-writer locks
-
-  3. page table / page handling
+  1.write some system calls
+  -
+  2. CPU scheduling
+  -
+  3. advanced reader-writer locks
+  -
+  4. page table / page handling
+  -
