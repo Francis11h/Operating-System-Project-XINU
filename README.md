@@ -3,7 +3,7 @@ Operating System projects
 ==
 
 
-1.write some system calls
+1. write some system calls, handle stack and heap
 
 2. CPU scheduling
 
