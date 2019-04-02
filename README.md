@@ -1,11 +1,14 @@
 
 Operating System projects
+==
 
 
+1. write some system calls, handle stack and heap
 
+2. CPU scheduling
 
-  1. CPU scheduling
+3. advanced reader-writer locks
 
-  2. advanced reader-writer locks
+4. page table / page handling
 
-  3. page table / page handling
+ 
